@@ -2,7 +2,7 @@ import socket
 import tkinter as tk
 from datetime import datetime
 
-IP_MONITOR = "192.168.100.67"
+IP_MONITOR = "192.168.100.x"
 PORT = 9300
 LOG_FILE = "srv_log.txt"
 

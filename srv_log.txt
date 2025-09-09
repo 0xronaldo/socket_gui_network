@@ -1,0 +1,12 @@
+2025-09-08 21:23:47 - [SERVER] Escuchando en 192.168.100.37:9200
+2025-09-08 21:26:12 - [SERVER] Cliente conectado: ('192.168.100.52', 14739)
+2025-09-08 21:26:14 - [SERVER] No se pudo notificar: [WinError 10061] No se puede establecer una conexión ya que el equipo de destino denegó expresamente dicha conexión
+2025-09-08 21:28:16 - [SERVER] Escuchando en 192.168.100.37:9200
+2025-09-08 21:28:26 - [SERVER] Cliente conectado: ('192.168.100.52', 14740)
+2025-09-08 21:28:26 - [SERVER] Notificacion enviada al monitor
+2025-09-08 21:29:06 - [SERVER] Cliente conectado: ('192.168.100.52', 14741)
+2025-09-08 21:29:06 - [SERVER] Notificacion enviada al monitor
+2025-09-08 21:29:29 - [SERVER] Cliente conectado: ('192.168.100.52', 14742)
+2025-09-08 21:29:29 - [SERVER] Notificacion enviada al monitor
+2025-09-08 21:31:43 - [SERVER] Cliente conectado: ('192.168.100.52', 14748)
+2025-09-08 21:31:43 - [SERVER] Notificacion enviada al monitor

@@ -2,7 +2,7 @@ import socket, json
 import tkinter as tk
 from datetime import datetime
 
-SERVER_IP = "192.168.100.37"
+SERVER_IP = "192.168.100.x"
 SERVER_PORT = 9200
 LOG_FILE = "srv_log.txt"
 
