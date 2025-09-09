@@ -1,6 +1,6 @@
 import socket
 
-IP = "192.168.100.110"   # Cambiar según tu red
+IP = "192.168.100.x"   # Cambiar según tu red
 PORT = 9300              # Puerto que escucha
 
 def run_monitor():

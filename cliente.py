@@ -1,6 +1,6 @@
 import socket, json
 
-SERVER_IP = "192.168.100.109"   # Cambiar según tu red
+SERVER_IP = "192.168.100.x"   # Cambiar según tu red
 SERVER_PORT = 9200
 
 def rpc_call(method, params):

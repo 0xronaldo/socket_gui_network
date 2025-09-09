@@ -1,9 +1,9 @@
 import socket, json
 
 # Configuración del servidor
-SERVER_IP = "192.168.100.37"   # Cambiar según tu red
+SERVER_IP = "192.168.100.x"   # Cambiar según tu red
 SERVER_PORT = 9200              # Puerto para clientes RPC
-NOTIFY_IP = "192.168.100.67"   # IP del equipo monitor
+NOTIFY_IP = "192.168.100.x"   # IP del equipo monitor
 NOTIFY_PORT = 9300              # Puerto del monitor
 
 # Métodos RPC
@@ -18,7 +18,7 @@ def notify_other_team():
     """Envía un mensaje automático al monitor."""
     try:
         sock = socket.create_connection((NOTIFY_IP, NOTIFY_PORT), timeout=5)
-        sock.sendall(b"[SERVER] Estoy en escucha y recibí conexión")
+        sock.sendall("[SERVER] en escucha, establecio conexión".encode("utf-8"))
         sock.close()
         print("[SERVER] Notificación enviada al monitor.")
     except Exception as e:

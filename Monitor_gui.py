@@ -2,7 +2,7 @@ import socket
 import json
 import time
 
-NOTIFY_IP = 'localhost'
+NOTIFY_IP = '192.168.100.x'  # IP del monitor
 NOTIFY_PORT = 9300
 
 
