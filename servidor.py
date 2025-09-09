@@ -1,64 +1,72 @@
 import socket, json
 
+# Configuración del servidor
+SERVER_IP = "192.168.100.37"   # Cambiar según tu red
+SERVER_PORT = 9200              # Puerto para clientes RPC
+NOTIFY_IP = "192.168.100.67"   # IP del equipo monitor
+NOTIFY_PORT = 9300              # Puerto del monitor
 
-# DEFINICION DE DE LOS DIRECCIONES DE IP_SERVIDOR Y EL MONITOR O AQUIEN NOTIFICAR
-# LA IP PARA EL SERVIDOR SERA LA IP DE LA PORTATIL
-SERVER_IP = '192.168.100.37'
-SERVER_PORT = 9200
-NOTIFY_IP = ''
-NOTIFY_PORT = 9300
-
-def echo(msg): return  f"Servidor recibió: {msg}"
+# Métodos RPC
+def echo(msg):
+    return f"Servidor recibió: {msg}"
 
 methods = {
-    "echo": echo   
+    "echo": echo
 }
 
-
 def notify_other_team():
-    """enviar un mensaje automatico al monitor"""
+    """Envía un mensaje automático al monitor."""
     try:
-        sock = socket.create_connection((NOTIFY_IP, NOTIFY_PORT))
-        sock.sendall(b"[SERVER] Estoy en escucha y recibi conexion")
+        sock = socket.create_connection((NOTIFY_IP, NOTIFY_PORT), timeout=5)
+        sock.sendall(b"[SERVER] Estoy en escucha y recibí conexión")
         sock.close()
+        print("[SERVER] Notificación enviada al monitor.")
     except Exception as e:
-        print(f"[SERVER] No pudo notificar al otro Equipo: {e}")
+        print(f"[SERVER] No se pudo notificar al monitor: {e}")
 
-def run_servidor():
-    srv = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    
-    # escuchando en la IP y puerto definidos
-    srv.bind((SERVER_IP, SERVER_PORT))
-    srv.listen(5) # maximo de 5 conexiones en espera cola
-    print(f"[SERVER] Esperando clientes en {SERVER_IP}:{SERVER_PORT}...")
+def run_server():
+    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    try:
+        s.bind((SERVER_IP, SERVER_PORT))
+        s.listen(5)
+        print(f"[SERVER] Esperando clientes en {SERVER_IP}:{SERVER_PORT}...")
+    except Exception as e:
+        print(f"[SERVER] Error iniciando servidor: {e}")
+        return
+
     while True:
-        conn, addr = srv.accept()
-        print(f"[SERVER] Cliente conectado: {addr}")
+        try:
+            conn, addr = s.accept()
+            print(f"[SERVER] Cliente conectado: {addr}")
 
+            # Avisar al monitor
+            notify_other_team()
 
-        # AI conectarse un cliente, notificamos a otro equipo
-        notify_other_team()
+            # Recibir datos del cliente
+            data = conn.recv(1024).decode()
+            if not data:
+                conn.close()
+                continue
 
+            # Procesar RPC
+            try:
+                request = json.loads(data)
+                method = request.get("method")
+                params = request.get("params", [])
 
-        # Recibir datos del cliente
-        data = conn.recv(1024).decode('utf-8')
-        if not data:
+                if method in methods:
+                    result = methods[method](*params)
+                else:
+                    result = "Método no encontrado"
+            except Exception as e:
+                result = f"Error procesando RPC: {e}"
+
+            # Respuesta al cliente
+            response = json.dumps({"result": result}).encode()
+            conn.sendall(response)
             conn.close()
-            continue
-        # processar RPC
+        except Exception as e:
+            print(f"[SERVER] Error con cliente: {e}")
 
-        request = json.loads(data)
-        methodo = request.get("method")
-        params = request.get("params", [])
-        if methodo in methods:
-            result = methods[methodo](*params)
-        else: 
-            result = "Metdodo no encontrado"
-
-        response = json.dumps{{"result":result}.encode()}
-        conn.sendall(respuese)
-        conn.close()
-
-
-if __name__ == "__main__"::
-    run_servidor()
+if __name__ == "__main__":
+    run_server()

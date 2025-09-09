@@ -1,31 +1,21 @@
 import socket, json
 
-SRV_IP = '192.168.100.37'
-SRV_PORT = 9200
+SERVER_IP = "192.168.100.109"   # Cambiar según tu red
+SERVER_PORT = 9200
 
-def rpc_client(method, params):
-    """Cliente RPC que envía una solicitud al servidor y recibe la respuesta."""
+def rpc_call(method, params):
     try:
-        sock = socket.create_connection((SRV_IP, SRV_PORT))
-        request = json.dumps({"method": method, "params": params}).encode()
-        sock.sendall(request)
-        
-        response_data = sock.recv(1024).decode('utf-8')
-        response = json.loads(response_data)
-        sock.close()
-        return response.get("result")
+        s = socket.create_connection((SERVER_IP, SERVER_PORT), timeout=5)
+        req = {"method": method, "params": params}
+        s.sendall(json.dumps(req).encode())
 
-
-
+        resp = json.loads(s.recv(1024).decode())
+        s.close()
+        return resp.get("result", "Respuesta inválida")
     except Exception as e:
-        print(f"[CLIENT] Error: {e}")
-        return None
+        return f"[CLIENT] Error en llamada RPC: {e}"
 
 if __name__ == "__main__":
-    print(rpc_client("echo", "Comunicacion : conectado..."))
     print("[CLIENT] Enviando mensaje RPC...")
-    print(rpc_client("echo", ["HOLA SERVIDOR RPC"]))
-    print(rpc_client("echo", ["HOLA SERVIDOR RPC"]))
-
-
-
+    resultado = rpc_call("echo", ["Hola servidor RPC"])
+    print(f"[CLIENT] Respuesta: {resultado}")

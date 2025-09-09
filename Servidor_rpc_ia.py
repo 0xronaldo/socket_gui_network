@@ -5,7 +5,7 @@ import socket, json
 # LA IP PARA EL SERVIDOR SERA LA IP DE LA PORTATIL
 SERVER_IP = '192.168.100.37'
 SERVER_PORT = 9200
-NOTIFY_IP = ''
+NOTIFY_IP = '192.168.100.67'
 NOTIFY_PORT = 9300
 
 def echo(msg): return  f"Servidor recibió: {msg}"
